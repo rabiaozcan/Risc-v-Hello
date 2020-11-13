@@ -1,6 +1,6 @@
 #include "hal.h"
 
-void *_sbrk(int i) { return (void *)-1; } //sonradan eklenen satýr
+void *_sbrk(void) { return (void *)-1; } //sonradan eklenen satÃ½r
 
 void hal_setup(const enum clock_mode clock)
 {
@@ -51,12 +51,4 @@ void hal_send_str(const char* in)
   uart_write(UART, '\n');
 }
 
-__attribute__((naked)) uint64_t hal_get_time(void)
-{
-#define LE "\n\t"
-  asm volatile (LE"csrr a1, mcycleh"
-                LE"csrr a0, mcycle"
-                LE"csrr a2, mcycleh"
-                LE"bne a1, a2, hal_get_time"
-                LE"ret");
-}
+
